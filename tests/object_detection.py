@@ -112,15 +112,13 @@ training_args = TrainingArguments(
     output_dir="detr-resnet-50_finetuned_cppe5",
     per_device_train_batch_size=1, #[B] was 8
     num_train_epochs=10,
-    fp16=True,
     save_steps=200,
     logging_steps=50,
     learning_rate=1e-5,
     weight_decay=1e-4,
     save_total_limit=2,
     remove_unused_columns=False,
-    push_to_hub=True,
-    hub_token="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"
+    push_to_hub=False,
 )
 
 from transformers import Trainer
@@ -139,8 +137,8 @@ trainer.train()
 Hugging Face Hub. Upon training completion, push the final model to the Hub as well by calling the [push_to_hub()](https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.Trainer.push_to_hub) method.
 """
 
-trainer.push_to_hub()
-trainer.save_model("data/model/hwars.ckpt")
+# trainer.push_to_hub()
+trainer.save_model("hwars.ckpt")
 
 
 # import json
