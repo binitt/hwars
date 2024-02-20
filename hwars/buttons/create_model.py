@@ -10,6 +10,8 @@ from transformers import Trainer
 from hwars import utils
 
 checkpoint = "facebook/detr-resnet-50"
+# checkpoint = "Ultralytics/YOLOv8" #nw
+# checkpoint = "nickmuchi/yolos-small-finetuned-license-plate-detection"
 image_processor = AutoImageProcessor.from_pretrained(checkpoint)
 
 categories = ["button"]
@@ -31,7 +33,7 @@ def main():
     training_args = TrainingArguments(
         output_dir="data/model/buttons-train",
         per_device_train_batch_size=1,
-        num_train_epochs=1000,
+        num_train_epochs=200,
         save_steps=200,
         logging_steps=50,
         learning_rate=6e-5,
@@ -75,7 +77,7 @@ def transform_aug_ann(examples):
     transform = albumentations.Compose(
         [
             albumentations.Resize(480, 480),
-            albumentations.HorizontalFlip(p=1.0),
+            # albumentations.HorizontalFlip(p=1.0),
             albumentations.RandomBrightnessContrast(p=1.0),
         ],
         bbox_params=albumentations.BboxParams(format="coco", label_fields=["category"]),
