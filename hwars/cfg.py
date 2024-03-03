@@ -4,6 +4,7 @@ import logging
 
 class Cfg:
     HF_TOKEN = None
+    DEBUG_MODE = False
 
 config_loaded = False
 _cfg = "data/config.yaml"

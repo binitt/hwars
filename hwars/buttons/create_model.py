@@ -13,6 +13,7 @@ checkpoint = "facebook/detr-resnet-50"
 # checkpoint = "Ultralytics/YOLOv8" #nw
 # checkpoint = "nickmuchi/yolos-small-finetuned-license-plate-detection"
 image_processor = AutoImageProcessor.from_pretrained(checkpoint)
+model_name = "binitt/hwars-buttons-model"
 
 categories = ["button"]
 id2label = {index: x for index, x in enumerate(categories, start=0)}
@@ -31,17 +32,19 @@ def main():
     )
 
     training_args = TrainingArguments(
-        output_dir="data/model/buttons-train",
-        per_device_train_batch_size=1,
-        num_train_epochs=200,
-        save_steps=200,
+        output_dir=model_name,
+        per_device_train_batch_size=4,
+        num_train_epochs=1000,
+        save_steps=500,
         logging_steps=50,
         learning_rate=6e-5,
         weight_decay=1e-4,
         save_total_limit=2,
         remove_unused_columns=False,
         push_to_hub=False,
-        save_strategy="no",
+        # save_strategy="no",
+        fp16=True,
+        # bf16=True,
     )
 
     trainer = Trainer(
@@ -76,9 +79,11 @@ def formatted_anns(image_id, category, area, bbox):
 def transform_aug_ann(examples):
     transform = albumentations.Compose(
         [
-            albumentations.Resize(480, 480),
+            # albumentations.Resize(640, 360),
+            albumentations.Resize(960, 600),
             # albumentations.HorizontalFlip(p=1.0),
             albumentations.RandomBrightnessContrast(p=1.0),
+            # albumentations.RandomCrop(height=240, width=240),
         ],
         bbox_params=albumentations.BboxParams(format="coco", label_fields=["category"]),
     )

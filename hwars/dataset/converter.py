@@ -32,6 +32,10 @@ def create_dataset():
             write_entry(f, from_entry)
     logging.info(f"Wrote {i} entries into {to_file}")
 
+category_map = {
+    "button": 0,
+    "cross": 1,
+}
 image_id = 0
 object_id = 0
 def write_entry(f, from_entry):
@@ -56,13 +60,14 @@ def write_entry(f, from_entry):
 
     for r in from_entry['regions']:
         sa = r['shape_attributes']
+        ra = r['region_attributes']
         if sa['name'] != 'rect':
             raise Exception(f'Only rect is supported but got {sa["name"]}')
         w,h = sa['width'], sa['height']
         to_entry["objects"]["id"].append(object_id)
         to_entry["objects"]["area"].append(w * h)
         to_entry["objects"]["bbox"].append([sa['x'], sa['y'], w, h]) 
-        to_entry["objects"]["category"].append(0)
+        to_entry["objects"]["category"].append(category_map[ra['type']])
         object_id += 1
 
     f.write(json.dumps(to_entry) + "\n")

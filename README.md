@@ -9,3 +9,24 @@ https://colab.research.google.com/github/woctezuma/finetune-detr/blob/master/fin
 
 # HF
 https://huggingface.co/docs/transformers/tasks/object_detection
+
+#Albumentations
+https://albumentations.ai/docs/examples/pytorch_classification/
+
+#RUNNING API
+python -m hwars.api.flask_app
+#Calling API
+curl -F "file=@./data/buttons/ss-1-find.png" http://127.0.0.1:5000/buttons
+
+#sample run
+python -m hwars.jobs.play '
+{
+  "repeat": 30,
+  "commands":[
+    {"button":"Find", "index":3},
+    {"button":"Start"},
+    {"button":"To battle"},
+    {"button":"Return to the City", "timeout": 300}
+  ]
+}'
+

@@ -10,3 +10,6 @@ matplotlib
 seaborn
 ipywidgets
 pycocotools
+opencv-python
+easyocr
+Flask==3.0.2

@@ -10,8 +10,8 @@ import os
 from hwars import utils
 
 def main():
-    if len(sys.argv) == 1:
-        imfile = sys.argv[0]
+    if len(sys.argv) == 2:
+        imfile = sys.argv[1]
     else:
         imfile = r"data/buttons/ss-7-victory.png"
     
@@ -20,7 +20,7 @@ def main():
     
     logging.info(f"Processing file: {imfile}")
 
-    with open(r'data/buttons/ss-7-victory.png', "rb") as f:
+    with open(imfile, "rb") as f:
         image = Image.open(f)
         process_image(image)
 
@@ -33,7 +33,7 @@ def process_image(image):
         inputs = image_processor(images=image, return_tensors="pt")
         outputs = model(**inputs)
         target_sizes = torch.tensor([image.size[::-1]])
-        results = image_processor.post_process_object_detection(outputs, threshold=0.8, target_sizes=target_sizes)[0]
+        results = image_processor.post_process_object_detection(outputs, threshold=0.7, target_sizes=target_sizes)[0]
 
     i = 0
     for score, label, box in zip(results["scores"], results["labels"], results["boxes"]):
@@ -51,9 +51,13 @@ def process_image(image):
     for score, label, box in zip(results["scores"], results["labels"], results["boxes"]):
         box = [round(i, 2) for i in box.tolist()]
         x, y, x2, y2 = tuple(box)
+        x2 += 50 # manual adjustment
         draw.rectangle((x, y, x2, y2), outline="red", width=3)
         draw.text((x, y), f"{i}: {model.config.id2label[label.item()]}", fill="white", font=font)
         i += 1
+    tmpfile = "logs/tmpimage.png"
+    image.save(tmpfile)
+    logging.info(f"Saved to {tmpfile}")
     image.show()
 
 if __name__ == "__main__":
