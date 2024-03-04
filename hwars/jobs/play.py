@@ -73,18 +73,7 @@ def play_command_iter(button, index):
     Also wait for 2s if was able to click
     Return true if successful in clicking"""
     screenshot = ImageGrab.grab()
-    img_bytes = io.BytesIO()
-    screenshot.save(img_bytes, format='PNG')
-    img_bytes.seek(0)
-
-    url = 'http://127.0.0.1:5000/buttons'
-    files = {'file': img_bytes}
-
-    response = requests.post(url, files=files)
-    resp_json = response.text
-    logging.info(f"Got resp: {resp_json}")
-
-    resp_obj = json.loads(resp_json)
+    resp_obj = utils.text_from_image(screenshot)
     candidate_index = 0
     success = False
     for candidate in resp_obj:
