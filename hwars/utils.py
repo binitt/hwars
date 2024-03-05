@@ -26,7 +26,7 @@ def text_from_image(image):
     image.save(img_bytes, format='PNG')
     img_bytes.seek(0)
 
-    url = 'http://127.0.0.1:5000/buttons'
+    url = 'http://binit2:15000/buttons'
     files = {'file': img_bytes}
 
     response = requests.post(url, files=files)

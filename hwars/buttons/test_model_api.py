@@ -1,13 +1,7 @@
-from datasets import load_dataset
-import torch
-from transformers import AutoImageProcessor
-from transformers import AutoModelForObjectDetection
 from PIL import Image, ImageDraw, ImageFont
 import logging
 import sys
 import os
-import json
-import pandas as pd
 from PIL import ImageGrab
 import pyautogui
 import time

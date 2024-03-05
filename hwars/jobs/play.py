@@ -5,8 +5,6 @@ from PIL import ImageGrab
 import time
 import pyautogui
 import time
-import requests
-import io
 
 from hwars import utils
 
@@ -87,6 +85,10 @@ def play_command_iter(button, index):
                 candidate_index += 1
     if not success and candidate_index > 0:
         logging.warning(f"Matching buttons found {candidate_index}, expected index: {index}")
+    if not success:
+        failfile = "logs/fail.png"
+        logging.info(f"Saving to {failfile}")
+        screenshot.save(failfile)
     return success
 
 def button_match(pred_text_orig, real_text_orig):
