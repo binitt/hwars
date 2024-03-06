@@ -60,10 +60,31 @@ def extract_text(image):
             txt = result[1]
     return txt
 
+def find_overlap(box, buttons, thresh=0.8):
+    for _text, oldbox in buttons:
+        if overlap_per(box, oldbox) > thresh:
+            return oldbox
+    return None
+
+def area(box):
+    return (box[2] - box[0]) * (box[3] - box[1])
+
+def overlap_per(box1, box2):
+    """find overlap_box = max(x1),max(y1),min(x2),min(y2)
+    return area(overlap_box) / area(box1)
+    """
+    overlap_box = [
+        max(box1[0], box2[0]), max(box1[1], box2[1]), 
+        min(box1[2], box2[2]), min(box1[3], box2[3])]
+    if overlap_box[0] > overlap_box[2] or overlap_box[1] > overlap_box[3]:
+        return False
+    return area(overlap_box) / area(box1)
+
 def locate_buttons(image):
     """Takes PIL Image and returns:
     [text, [x1,y1,x2,y2]]
-    Data are sorted by (x1+y1)"""
+    Data are sorted by (x1+y1)
+    Remove if overlap > 80%"""
     global image_processor, model
     buttons = []
     with torch.no_grad():
@@ -88,7 +109,11 @@ def locate_buttons(image):
             f"{round(score.item(), 3)} at location {box}"
         )
         i += 1
-        buttons.append([button_text, box])
+        overlap = find_overlap(box, buttons)
+        if overlap is None:
+            buttons.append([button_text, box])
+        else:
+            logging.info(f"Box:{box} overlaps with {overlap}")
         
 
     if Cfg.DEBUG_MODE:
