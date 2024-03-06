@@ -30,3 +30,5 @@ python -m hwars.jobs.play '
   ]
 }'
 
+#test with api
+python -m hwars.buttons.test_model_api

@@ -17,8 +17,8 @@ def main():
         logging.info(f"Processing for file: {imfile}")
         image = Image.open(imfile)
     else:
-        time.sleep(1)
         pyautogui.hotkey('alt', 'tab')
+        time.sleep(1)
         image = ImageGrab.grab()
         time.sleep(2)
         pyautogui.hotkey('alt', 'tab')        
