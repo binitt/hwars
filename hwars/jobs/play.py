@@ -72,19 +72,17 @@ def play_command_iter(button, index):
     Return true if successful in clicking"""
     screenshot = ImageGrab.grab()
     resp_obj = utils.text_from_image(screenshot)
-    candidate_index = 0
+    matches = []
     success = False
     for candidate in resp_obj:
         if button_match(candidate[0], button):
-            if candidate_index == index:
-                send_click(candidate[1])
-                time.sleep(2)
-                success = True
-                break
-            else:
-                candidate_index += 1
-    if not success and candidate_index > 0:
-        logging.warning(f"Matching buttons found {candidate_index}, expected index: {index}")
+            matches.append(candidate)
+
+    if len(matches) > 0:
+        send_click(matches[index][1])
+        time.sleep(2)
+        success = True
+
     if not success:
         failfile = "logs/fail.png"
         logging.info(f"Saving to {failfile}")
