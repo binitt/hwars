@@ -76,6 +76,7 @@ def locate_buttons(image):
     for score, label, box in zip(results["scores"], results["labels"], results["boxes"]):
         label = model.config.id2label[label.item()]
         box = [round(i, 2) for i in box.tolist()]
+        box[2] += 50 # manual adjustment
         if label == 'button':
             button_image = image.crop(box)
             button_text = extract_text(button_image)

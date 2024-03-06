@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  hwars:
+    image: dorowu/ubuntu-desktop-lxde-vnc
+    restart: 'no'
+    hostname: hwars
+    logging:
+      options:
+        max-size: "50m"
+        max-file: "3"
+#    user: "1000:1000"
+    environment:
+      RESOLUTION: '1920x1080'
+    ports:
+      - "6081:80"
+      - "5901:5900"
+    networks:
+      nw_1:
+        ipv4_address: "172.22.1.11"
+    volumes:
+      - C:\git\hwars\data\chrome-profile\Default:/root/.config/google-chrome/Default
+#      - /dev/shm:/dev/shm
+
+networks:
+  nw_1:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.22.1.0/24
+

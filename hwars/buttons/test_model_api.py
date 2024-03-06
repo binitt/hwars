@@ -15,8 +15,7 @@ def main():
             logging.error(f"File not found: {imfile}")
         
         logging.info(f"Processing for file: {imfile}")
-        with open(imfile, "rb") as f:
-            image = Image.open(f)
+        image = Image.open(imfile)
     else:
         time.sleep(1)
         pyautogui.hotkey('alt', 'tab')
