@@ -13,3 +13,5 @@ pycocotools
 opencv-python
 easyocr
 Flask==3.0.2
+setuptools
+wheel

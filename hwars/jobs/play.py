@@ -79,9 +79,11 @@ def play_command_iter(button, index):
             matches.append(candidate)
 
     if len(matches) > 0:
-        send_click(matches[index][1])
-        time.sleep(2)
-        success = True
+        if ((index >= 0 and len(matches) > index) or 
+            (index < 0 and len(matches) > len(matches) + index)):
+            send_click(matches[index][1])
+            time.sleep(2)
+            success = True
 
     if not success:
         failfile = "logs/fail.png"

@@ -18,8 +18,8 @@ services:
       nw_1:
         ipv4_address: "172.22.1.11"
     volumes:
-      - C:\git\hwars\data\chrome-profile\Default:/root/.config/google-chrome/Default
-#      - /dev/shm:/dev/shm
+      - .\mozilla.tar:/root/mozilla.tar
+      - ..\dist:/root/dist
 
 networks:
   nw_1:
