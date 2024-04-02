@@ -44,7 +44,11 @@ def play_cmd(cmd):
         logging.info(f"Run: {i+1}/{repeat}")
         for command in cmd["commands"]:
             success = play_command(command)
+            optional = command.get("optional", False)
             if not success:
+                if optional:
+                    logging.info(f"Failed to find, but optional so proceeding to next step")
+                    continue
                 logging.error(f"Failed to complete at run {i+1}/{repeat}")
                 pyautogui.hotkey('alt', 'tab') #revert
                 return
@@ -53,17 +57,21 @@ def play_cmd(cmd):
 
 def play_command(command):
     button, index, timeout = command["button"], command.get("index", 0), command.get("timeout", 2*60)
+    sleep = command.get("sleep", 0)
     logging.info(f"Running {button}[{index}] with timeout {timeout}s")
 
     end = time.time() + timeout
     success = False
     while time.time() < end:
-        logging.info(f"Running another iteration")
+        logging.info(f"Running another iteration, trying to find: {button}")
         success = play_command_iter(button, index)
         if success:
             break
         time.sleep(2)
     logging.info(f"Returning with result: {success} for button: {button}")
+    if sleep > 0:
+        logging.info(f"Sleeping for {sleep}s")
+        time.sleep(sleep)
     return success
 
 def play_command_iter(button, index):

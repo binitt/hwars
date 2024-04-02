@@ -18,7 +18,7 @@ python -m hwars.api.flask_app
 #Calling API
 curl -F "file=@./data/buttons/ss-1-find.png" http://127.0.0.1:5000/buttons
 
-#sample run
+#campaign
 python -m hwars.jobs.play '
 {
   "repeat": 30,
@@ -29,6 +29,36 @@ python -m hwars.jobs.play '
     {"button":"Return to the City", "timeout": 300}
   ]
 }'
+
+#arena
+python -m hwars.jobs.play '
+{
+  "repeat": 5,
+  "commands":[
+    {"button":"Attack", "index":0},
+    {"button":"To battle", "index":0, "sleep":60},
+    {"button":"OK", "index":0}
+  ]
+}'
+
+
+#grand arena
+python -m hwars.jobs.play '
+{
+  "repeat": 5,
+  "commands":[
+{"button":"To battle", "index":0},
+{"button":"Attack", "index":0},
+{"button":"Next", "index":0},
+{"button":"Next", "index":0},
+{"button":"To battle", "index":0, "sleep":60 },
+{"button":"Next battle", "index":0, "sleep":60},
+{"button":"Next battle", "index":0, "optional": true, "sleep":60},
+    {"button":"OK", "index":0}
+  ]
+}'
+
+
 
 #test with api
 python -m hwars.buttons.test_model_api
