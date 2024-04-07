@@ -13,6 +13,13 @@ https://huggingface.co/docs/transformers/tasks/object_detection
 #Albumentations
 https://albumentations.ai/docs/examples/pytorch_classification/
 
+#Training steps
+## PREP Dataset
+python -m hwars.dataset.converter
+
+## Training in colab
+hwars\hwars\buttons\hwars_buttons.ipynb
+
 #RUNNING API
 python -m hwars.api.flask_app
 #Calling API

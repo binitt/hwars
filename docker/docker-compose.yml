@@ -14,6 +14,8 @@ services:
     ports:
       - "6081:80"
       - "5901:5900"
+    extra_hosts:
+      - "binit2:172.22.64.1"
     networks:
       nw_1:
         ipv4_address: "172.22.1.11"
