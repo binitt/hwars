@@ -28,7 +28,7 @@ curl -F "file=@./data/buttons/ss-1-find.png" http://127.0.0.1:5000/buttons
 #campaign
 python -m hwars.jobs.play '
 {
-  "repeat": 30,
+  "repeat": 300,
   "commands":[
     {"button":"Find", "index":3},
     {"button":"Start"},

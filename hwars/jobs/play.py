@@ -122,5 +122,6 @@ def send_click(box):
 if __name__ == "__main__":
     utils.logging_init_stdout()
     logging.info(f"Play started")
+    pyautogui.FAILSAFE = False
     main()
     logging.info(f"Play finished")
