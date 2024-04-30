@@ -30,7 +30,7 @@ python -m hwars.jobs.play '
 {
   "repeat": 300,
   "commands":[
-    {"button":"Find", "index":3},
+    {"button":"Find", "index":-1},
     {"button":"Start"},
     {"button":"To battle"},
     {"button":"Return to the City", "timeout": 300}
