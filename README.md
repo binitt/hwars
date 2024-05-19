@@ -13,9 +13,21 @@ https://huggingface.co/docs/transformers/tasks/object_detection
 #Albumentations
 https://albumentations.ai/docs/examples/pytorch_classification/
 
-#Training steps
+#Training/Tuning steps
 ## PREP Dataset
+# create image png in data/buttons
+# Open via and annotate from browser: 
+## file:///C:/installed/via-2.0.12/via-2.0.12/via.html
+## load data/buttons/hwars.json
+## load all image files
+## annotate and save project
+## copy hwars.json back to data/buttons 
 python -m hwars.dataset.converter
+
+#Versioning 
+git clone "https://huggingface.co/binitt/hwars-buttons-model.git"
+git tag v1.0
+git push origin v1.0
 
 ## Training in colab
 hwars\hwars\buttons\hwars_buttons.ipynb
