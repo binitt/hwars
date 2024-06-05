@@ -45,7 +45,7 @@ python -m hwars.jobs.play '
     {"button":"Find", "index":-1},
     {"button":"Start"},
     {"button":"To battle"},
-    {"button":"Return to the City", "timeout": 300}
+    {"button":"Return to", "timeout": 300}
   ]
 }'
 

@@ -1,4 +1,3 @@
-version: "3.3"
 services:
   hwars:
     image: dorowu/ubuntu-desktop-lxde-vnc
@@ -16,17 +15,17 @@ services:
       - "5901:5900"
     extra_hosts:
       - "binit2:172.22.64.1"
-    networks:
-      nw_1:
-        ipv4_address: "172.22.1.11"
+#    networks:
+#      nw_1:
+#        ipv4_address: "172.22.1.11"
     volumes:
       - .\mozilla.tar:/root/mozilla.tar
       - ..\dist:/root/dist
 
-networks:
-  nw_1:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 172.22.1.0/24
+#networks:
+#  nw_1:
+#    driver: bridge
+#    ipam:
+#     config:
+#       - subnet: 172.22.1.0/24
 
