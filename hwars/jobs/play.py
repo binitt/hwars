@@ -43,7 +43,10 @@ def play_cmd(cmd):
     for i in range(repeat):
         logging.info(f"Run: {i+1}/{repeat}")
         for command in cmd["commands"]:
-            success = play_command(command)
+            if "button" in command:
+                success = play_command(command)
+            elif "key" in command:
+                success = send_key(command)
             optional = command.get("optional", False)
             if not success:
                 if optional:
@@ -55,6 +58,15 @@ def play_cmd(cmd):
     logging.info(f"Successfully completed all tasks")
     pyautogui.hotkey('alt', 'tab') #revert
 
+def send_key(command):
+    key, sleep = command["key"], command.get("sleep", 0)
+    pyautogui.typewrite(key)
+    logging.info(f"Sent keys {key}")
+    if sleep > 0:
+        logging.info(f"Sleeping for {sleep}s")
+        time.sleep(sleep)
+    return True
+        
 def play_command(command):
     button, index, timeout = command["button"], command.get("index", 0), command.get("timeout", 2*60)
     sleep = command.get("sleep", 0)

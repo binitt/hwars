@@ -19,3 +19,21 @@ pip install --force-reinstall dist/*.whl
 pip install -r requirements-client.txt
 
 mkdir /root/logs
+
+
+
+#For autostart
+root@hwars:~# cat /etc/supervisor/conf.d/supervisord.conf
+
+==
+[program:lxterminal]
+priority=26
+command=/usr/bin/lxterminal
+environment=DISPLAY=":1",HOME="/root",USER="root"
+
+
+[program:firefox]
+priority=27
+command=/usr/bin/firefox
+environment=DISPLAY=":1",HOME="/root",USER="root"
+==

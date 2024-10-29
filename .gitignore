@@ -165,3 +165,5 @@ data/
 hwars-venv/
 logs/
 docker/mozilla.tar
+*.pt
+runs/

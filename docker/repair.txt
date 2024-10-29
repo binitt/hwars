@@ -1,0 +1,1 @@
+dc exec hwars rm /tmp/.X1-lock

@@ -15,3 +15,4 @@ easyocr
 Flask==3.0.2
 setuptools
 wheel
+ultralytics==8.3.24
