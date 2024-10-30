@@ -20,6 +20,7 @@ def main():
   "commands":[
     {"button":"Find", "index":2},
     {"button":"Start"},
+    {"button": "Cross", "conditions": ["0.99 USD"], "optional": true, "back": true, "timeout": 5},
     {"button":"To battle!"},
     {"button":"Return to the City"}
   ]
@@ -42,12 +43,16 @@ def play_cmd(cmd):
     repeat = cmd.get("repeat", 1)
     for i in range(repeat):
         logging.info(f"Run: {i+1}/{repeat}")
-        for command in cmd["commands"]:
+        i = 0
+        while i < len(cmd["commands"]):
+            command = cmd["commands"][i]
+            i += 1
             if "button" in command:
                 success = play_command(command)
             elif "key" in command:
                 success = send_key(command)
             optional = command.get("optional", False)
+            back = command.get("back", False)
             if not success:
                 if optional:
                     logging.info(f"Failed to find, but optional so proceeding to next step")
@@ -55,6 +60,9 @@ def play_cmd(cmd):
                 logging.error(f"Failed to complete at run {i+1}/{repeat}")
                 pyautogui.hotkey('alt', 'tab') #revert
                 return
+            elif back:
+                logging.info(f"Back present so going one step back")
+                i -= 1
     logging.info(f"Successfully completed all tasks")
     pyautogui.hotkey('alt', 'tab') #revert
 
@@ -69,24 +77,25 @@ def send_key(command):
         
 def play_command(command):
     button, index, timeout = command["button"], command.get("index", 0), command.get("timeout", 2*60)
+    conditions = command.get("conditions", [])
     sleep = command.get("sleep", 0)
     logging.info(f"Running {button}[{index}] with timeout {timeout}s")
 
     end = time.time() + timeout
     success = False
     while time.time() < end:
-        logging.info(f"Running another iteration, trying to find: {button}")
-        success = play_command_iter(button, index)
+        logging.info(f"Running another iteration, trying to find: {button} ; {conditions}")
+        success = play_command_iter(button, conditions, index)
         if success:
             break
         time.sleep(2)
-    logging.info(f"Returning with result: {success} for button: {button}")
+    logging.info(f"Returning with result: {success} for button: {button} ; {conditions}")
     if sleep > 0:
         logging.info(f"Sleeping for {sleep}s")
         time.sleep(sleep)
     return success
 
-def play_command_iter(button, index):
+def play_command_iter(button, conditions, index):
     """Grab screenshot, find the button and click
     Also wait for 2s if was able to click
     Return true if successful in clicking"""
@@ -94,11 +103,13 @@ def play_command_iter(button, index):
     resp_obj = utils.text_from_image(screenshot)
     matches = []
     success = False
+    cset = set(conditions)
     for candidate in resp_obj:
         if button_match(candidate[0], button):
             matches.append(candidate)
+        cset.discard(candidate[0])
 
-    if len(matches) > 0:
+    if len(matches) > 0 and len(cset) == 0:
         if ((index >= 0 and len(matches) > index) or 
             (index < 0 and len(matches) > len(matches) + index)):
             send_click(matches[index][1])
