@@ -4,7 +4,7 @@ import io
 import json
 import logging
 
-from hwars.buttons.extract_text import load_models, locate_buttons
+from hwars.buttons.yolo.extract_text import load_models, locate_buttons
 from hwars import utils
 
 app = Flask(__name__)
