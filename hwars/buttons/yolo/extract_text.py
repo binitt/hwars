@@ -11,11 +11,12 @@ from hwars import utils
 from hwars.cfg import Cfg
 
 model = None
+confidence = 0.02
 reader = None
 def load_models():
     global model, reader
     logging.info(f'Loading models')
-    model_name = "./data/yolo/models/hwars2.pt"
+    model_name = "./data/yolo/models/hwars.pt"
     model = YOLO(model_name)
     reader = easyocr.Reader(['en'])
     logging.info(f"Models loaded")
@@ -82,11 +83,11 @@ def locate_buttons(image):
     [text, [x1,y1,x2,y2]]
     Data are sorted by (x1+y1)
     Remove if overlap > 80%"""
-    global model
+    global model, confidence
     buttons = []
 
     i = 0
-    results = model(image, conf=0.01)
+    results = model(image, conf=confidence)
     for cl, box in zip(results[0].boxes.cls, results[0].boxes.xyxy):
         label = results[0].names[cl.item()] # item converts from tensor to a value
         box = [round(i, 2) for i in box.tolist()]
