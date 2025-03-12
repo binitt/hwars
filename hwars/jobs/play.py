@@ -62,7 +62,7 @@ def play_cmd(cmd):
                 return
             elif back:
                 logging.info(f"Back present so going one step back")
-                i -= 1
+                i -= 2
     logging.info(f"Successfully completed all tasks")
     pyautogui.hotkey('alt', 'tab') #revert
 
