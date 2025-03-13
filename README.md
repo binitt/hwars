@@ -1,3 +1,46 @@
+# Yolo training
+
+## venv
+
+/cygdrive/c/Python/Python310/python.exe -m venv ./venv
+(set ff=unix with vim for activate)
+. venv/Scripts/activate
+pip install -r requirements.txt
+
+## train
+
+### Optional
+Clone this (for trial code): 
+https://github.com/binitt/yolov11-try
+
+### Main train
+// setup datasets folder
+vim "C:\Users\binit\AppData\Roaming\Ultralytics\settings.json"
+```
+  "datasets_dir": "C:\\git\\hwars\\data\\yolo",
+```
+
+mkdir -p logs
+python -m hwars.buttons.yolo.create_model
+
+
+## docker linux setup
+dc up -d
+start lxterminal
+follow instructions from docker/readme.txt
+
+## config for running
+### hwars host
+./pbuild.sh
+// check binit-hwars ip addr, this is in utils.py that makes api call
+./scripts/api.sh
+
+### hwars container
+pip install -r dist/requirements-client.txt 
+./dist/pinstall.sh
+./dist/run.sh
+
+
 # DETR repo
 #https://github.com/facebookresearch/detr
 #https://colab.research.google.com/github/facebookresearch/detr/blob/colab/notebooks/detr_attention.ipynb#scrollTo=PcxWAOzOYTEn
